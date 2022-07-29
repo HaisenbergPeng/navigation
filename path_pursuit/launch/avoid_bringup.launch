@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find obstacle_detector)/launch/nodes_tra.launch"/>
+  <node name="avoidance" pkg="path_pursuit" type="avoidance" ></node>
+</launch>

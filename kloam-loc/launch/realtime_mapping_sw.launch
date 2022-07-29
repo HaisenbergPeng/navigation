@@ -1,0 +1,25 @@
+<launch>
+
+    <arg name="project" default="kloam"/>
+    <!-- use_sim_time is true when clock is used for rosbag -->
+    
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find kloam)/launch/include/rosconsole/rosconsole_info.conf"/>
+    
+    <!-- Parameters -->
+    <rosparam file="$(find kloam)/config/params_sw_mapping_realtime.yaml" command="load" />
+
+    <!--- LOAM -->
+    <include file="$(find kloam)/launch/include/module_loam.launch" />
+
+    <!--- Robot State TF -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find kloam)/launch/include/robot.urdf.xacro --inorder" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
+    </node>
+    <!--- Run Rviz-->
+    <node pkg="rviz" type="rviz" name="$(arg project)_rviz" args="-d $(find kloam)/launch/include/rviz/rviz.rviz" />
+
+    <!-- <node pkg="tf" type="static_transform_publisher" name="map2odom" args="0 0 0 0 0 0 /mapLIO /odomLIO 100" /> 
+    <node pkg="tf" type="static_transform_publisher" name="lidar2base" args="0 0 0 0 0 0 /lidar_link /base_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="laser2base" args="0 0 0.4 0 0 0 /laser /base_link 100" /> -->
+    
+</launch>

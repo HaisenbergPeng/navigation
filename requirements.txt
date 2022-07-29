@@ -1,0 +1,6 @@
+Ubuntu 16.04
+PCL1.7
+Eigen 3.3.7 (cmake .. -DCMAKE_INSTALL_PREFIX=/usr)
+ceres 1-14
+GTSAM 4.0.2 (cmake ..  -DGTSAM_BUILD_WITH_MARCH_NATIVE = OFF)
+

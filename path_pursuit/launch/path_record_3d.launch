@@ -1,0 +1,10 @@
+<launch>
+ 
+  <param name="use_sim_time" value="true"/>
+
+  <param name="/path_record_3d/invertal" value="3" />
+  <param name="/path_record_3d/filename" value="$(find path_pursuit)/path/path.txt" />
+  <node pkg="path_pursuit" type="path_record_3d" name="path_record_3d" output="screen"/>
+
+
+</launch>

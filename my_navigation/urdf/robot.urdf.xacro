@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="lio" xmlns:xacro="http://tixiaoshan.github.io/">
+  <xacro:property name="PI" value="3.1415926535897931" />
+<!-- lidar map is not correctly built, all joint height + 1.0m -->
+
+<link name="base_footprint"></link>
+
+ <link name="base_link"></link>
+  <!-- velodyne height from baselink: 1.43m -->
+  <joint name="base_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+    <origin xyz="0 0 1.3" rpy="0 0 0" />
+  </joint>
+  
+  <!-- laser or baselink height from ground: 0.3 m -->
+  <link name="lidar_link"></link>
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link" />
+    <origin xyz="0 0 1.43" rpy="0 0 0" /> 
+  </joint>
+
+  <!--roughly measured: laser center 0.8 ahead  "1.3 -0.1 0.3-->
+  <link name="laser"></link>
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser" />
+    <origin xyz="1.05 0 0.3" rpy="0 0 -0.06" /> 
+  </joint>
+
+</robot>

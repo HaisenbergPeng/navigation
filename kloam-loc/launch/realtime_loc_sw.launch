@@ -1,0 +1,26 @@
+<launch>
+
+    <arg name="project" default="kloam"/>
+    <!-- <param name="use_sim_time" value="true" /> --> 
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find kloam)/launch/include/rosconsole/rosconsole_info.conf"/>
+    
+    <!-- Parameters -->
+    <rosparam file="$(find kloam)/config/params_sw_loc_realtime.yaml" command="load" />
+
+    <!--- LOAM -->
+    <include file="$(find kloam)/launch/include/module_loam.launch" />
+
+    <!--- Robot State TF -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find kloam)/launch/include/robot.urdf.xacro --inorder" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
+    </node>
+    
+    <!--- Run Rviz-->
+    <node pkg="rviz" type="rviz" name="$(arg project)_rviz" args="-d $(find kloam)/launch/include/rviz/rviz.rviz" />
+
+    <include file="$(find velodyne_pointcloud)/launch/VLP-32C_points.launch"/>
+
+    <!-- map is the map of base_link, which is the center axis of two wheels -->
+    <node pkg="tf" type="static_transform_publisher" name="map2odom" args="0 0 0 0 0 0 /map /odom 100" />
+    
+</launch>

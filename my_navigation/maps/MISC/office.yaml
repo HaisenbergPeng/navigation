@@ -1,0 +1,8 @@
+image: office.jpg
+resolution: 0.10000
+origin: [-59.8130074, -40.5367699, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+ 
+

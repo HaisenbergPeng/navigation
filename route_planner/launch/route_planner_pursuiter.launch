@@ -1,0 +1,26 @@
+<launch>
+  <!-- turtlebot_teleop_key already has its own built in velocity smoother -->
+  <arg name = "pose_topic" default="/kloam/mapping/odometry"/>
+
+  <node pkg="route_planner" type="route_planner" name="route_planner"  output="screen">
+    <!-- <rosparam file="$(find route_planner)/launch/config.yaml" command="load"/> -->
+    <param name="pose_topic" value = "$(arg pose_topic)"/>
+    <param name="rad" value = "0.6"/>
+    <param name="filename" value="/home/imr/Documents/MAPs/IMR2nd/PATHs/path_mapping.txt"/>
+    
+  </node>
+ 
+  <node pkg="path_pursuit" type="path_pursuit" name="path_pursuit" output="screen">
+    <param name="len_th" value="0.8"/>     <!--dist threshold for intermediate points-->
+    <param name="dist_th" value="0.6"/>  <!--dist threshold for the end point-->
+    <param name="endtimes" value="5"/>  <!-- confirmations for the end point-->
+    <param name="pose_topic" value = "$(arg pose_topic)"/>
+    <param name="cmd_vel" value="cmd_vel"/>
+  </node>
+
+  <!-- <include file="$(find obstacle_detector)/launch/nodes_tra.launch"/>
+  <node pkg="path_pursuit" type="avoidance" name="av" output="screen">   
+  </node> -->
+
+  
+</launch>

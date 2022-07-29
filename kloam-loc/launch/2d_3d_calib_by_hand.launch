@@ -1,0 +1,13 @@
+<launch>
+
+    <arg name="project" default="kloam"/>
+
+    <include file="$(find velodyne_pointcloud)/launch/VLP-32C_points.launch"/>
+    <include file="$(find sick_scan)/launch/two_sick_tim571.launch"/>
+    <include file="$(find obstacle_detector)/launch/merge.launch"/>
+    <!-- map is the map of base_link, which is the center axis of two wheels -->
+    <node pkg="tf" type="static_transform_publisher" name="laser2lidar" args="0.94 0 -1.45 0 0 0 /velodyne /laser_link 100" />
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kloam)/launch/include/rviz/calib.rviz" /> 
+
+</launch>

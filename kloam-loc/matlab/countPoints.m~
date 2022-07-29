@@ -1,0 +1,51 @@
+function [img,originX,originY] = countPoints(ptcloud,res)
+% res: resolution of the image , in meter
+% sign: if inverted,set to -1; if not, 1;
+% var_thres: determine if the ground is flat
+% groundH: height start from the lowest for ground removal
+% 
+% image coordinates are in the lidar frame
+    num_points = ptcloud.Count;
+    x2 = ptcloud.XLimits(2);
+    x1 = ptcloud.XLimits(1);
+    y2 = -ptcloud.YLimits(1);
+    y1 = -ptcloud.YLimits(2);
+    xNum = ceil( (x2 - x1)/res);
+    yNum = ceil((y2 - y1)/res);
+    originX = x1;
+    originY = y2;
+    
+    enough_big = 1e+6;
+    gridZMin = enough_big*ones(xNum,yNum);
+    numP = zeros(xNum,yNum);
+
+    for i =1:num_points
+        point = ptcloud.Location(i,:);
+        x = point(1);
+        y = -point(2);
+        z = point(3);
+        gridZmin
+        %% ground removal: height variation
+        tmp = numP(floor((x-x1)/res) + 1, floor((y-y1)/res) + 1);
+        numP(floor((x-x1)/res) + 1, floor((y-y1)/res) + 1) =...
+            tmp+1;
+        if tmp > enough_big
+            disp("enough_big is not big enough");
+            break;
+        end
+    end
+    
+    maxV = max(numP,[],'all');
+    img = 1- numP/maxV;
+    
+    for i=1:xNum
+        for j=1:yNum
+            if img(i,j) > 0.8
+                img(i,j) = 1;
+            else
+                img(i,j) = 0;
+            end
+        end
+    end
+    
+end

@@ -1,0 +1,40 @@
+<launch>
+<!-- use with "rosbag clock"  -->
+<!-- tf tree should be published in localization algorithm -->
+
+<param name="use_sim_time" value="false"/> 
+
+<include file="$(find sick_scan)/launch/two_sick_tim571.launch"/>
+
+<include file="$(find obstacle_detector)/launch/merge.launch"/>
+
+<!-- <include file="$(find kloam)/launch/loc_sw_realtime.launch"/> -->
+
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_navigation)/rviz/move-base-navi.rviz" /> 
+ <!-- Run the map server -->
+<node name="map_server" pkg="map_server" type="map_server" args="$(find my_navigation)/maps/office2.yaml" output="screen"/>
+   
+<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <rosparam file="$(find my_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+  <rosparam file="$(find my_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  <rosparam file="$(find my_navigation)/config/local_costmap_params.yaml" command="load" />
+  <rosparam file="$(find my_navigation)/config/global_costmap_params.yaml" command="load" />
+  <rosparam file="$(find my_navigation)/config/teb_local_planner_params.yaml" command="load" />
+  <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+  <param name="planner_frequency" value="2.0" />
+  <param name="planner_patience" value="5.0" />
+  <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+  <param name="controller_frequency" value="25.0" />
+  <param name="controller_patience" value="50.0" />
+</node>
+
+<!-- <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+  <param name="resolution" value="0.1"/>
+  <param name="frame_id" type="string" value="map"/>
+  <param name="latch" value="true"/>
+  <param name="pointcloud_max_z" value="0.5"/>
+  <param name="pointcloud_min_z" value="-1.0"/>
+  <remap from="projected_map" to="map"/>
+  <remap from="cloud_in" to="/kloam/mapping/map_global"/>
+</node> -->
+</launch>

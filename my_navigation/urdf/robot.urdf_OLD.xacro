@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="lio" xmlns:xacro="http://tixiaoshan.github.io/">
+  <xacro:property name="PI" value="3.1415926535897931" />
+
+<!-- <link name="fake_lidar_link"></link> -->
+
+<link name="lidar_link"></link>
+<!-- <joint name="fakelidar_link_joint" type="fixed">
+    <parent link="fake_lidar_link"/>
+    <child link="lidar_link" />
+    <origin xyz="0 0 1.73" rpy="0 0 0" />
+  </joint> -->
+
+ <link name="base_link"></link>
+  <!-- velodyne height from baselink: 1.43m -->
+  <joint name="lidar_link_joint" type="fixed">
+    <parent link="lidar_link"/>
+    <child link="base_link" />
+    <origin xyz="0.3 0 0" rpy="0 0 0" />
+  </joint>
+  
+  <!-- laser or baselink height from ground: 0.3 m -->
+  <link name="base_footprint"></link>
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint" />
+    <origin xyz="0 0 -0.3" rpy="0 0 0" /> 
+  </joint>
+
+  <!--roughly measured: laser center 0.8m ahead of baselink -->
+  <link name="laser"></link>
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser" />
+    <origin xyz="0.8 0 0" rpy="0 0 0" /> 
+  </joint>
+
+  <link name="chassis_link"></link>
+  <joint name="chassis_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="imu_link"> </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="imu_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="navsat_link"> </link>
+  <joint name="navsat_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="navsat_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+</robot>

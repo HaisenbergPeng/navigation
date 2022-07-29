@@ -1,0 +1,10 @@
+<launch>
+ 
+  <!--param name="use_sim_time" value="true"/-->
+
+  <param name="/path_record/invertal" value="3" />
+  <param name="/path_record/filename" value="$(find path_pursuit)/path/path0323.txt" />
+  <node pkg="path_pursuit" type="path_record" name="path_record" output="screen"/>
+
+
+</launch>
